@@ -1,0 +1,18 @@
+#!/bin/bash
+
+haveged_exists() {
+    prog_exists haveged
+}
+
+haveged_start() {
+    haveged -p "/run/haveged.pid" ${HAVEGED_ARGS}
+}
+
+haveged_stop() {
+    pidfilekill /run/haveged.pid
+}
+
+haveged_status() {
+    pidfileexists /run/haveged.pid
+}
+

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+consolekit_exists() {
+    prog_exists console-kit-daemon
+}
+
+consolekit_depends() {
+    echo dbus
+}
+
+consolekit_wants() {
+    [[ "${BEGINNING_PLATFORM}" == "Linux" ]] && echo cgmanager
+}
+
+consolekit_start() {
+    console-kit-daemon ${CONSOLEKIT_ARGS} >/dev/null 2>&1
+}
+
+consolekit_stop() {
+    pidfilekill /run/console-kit-daemon.pid
+}
+
+consolekit_status() {
+    pidfileexists /run/console-kit-daemon.pid
+}
+

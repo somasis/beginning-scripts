@@ -1,0 +1,23 @@
+#!/bin/bash
+
+cronie_exists() {
+    prog_exists crond
+}
+
+cronie_provides() {
+    echo cron
+}
+
+cronie_start() {
+    crond -n ${CRONIE_ARGS} &
+    echo $! > /run/cronie.pid
+}
+
+cronie_stop() {
+    pidfilekill /run/cronie.pid
+}
+
+cronie_status() {
+    pidfileexists /run/cronie.pid
+}
+

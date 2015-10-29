@@ -1,0 +1,26 @@
+#!/bin/bash
+
+connmand_exists() {
+    prog_exists connmand
+}
+
+connmand_provides() {
+    echo network
+}
+
+connmand_depends() {
+    echo dbus dev
+}
+
+connmand_start() {
+    connmand -n ${CONNMAN_ARGS} >/dev/null 2>&1 &
+    echo $! > /run/connmand.pid
+}
+
+connmand_stop() {
+    pidfilekill /run/connmand.pid
+}
+
+connmand_status() {
+    pidfileexists /run/connmand.pid
+}

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+openntpd_exists() {
+    prog_exists openntpd
+}
+
+openntpd_depends() {
+    echo network
+}
+
+openntpd_start() {
+    openntpd -p /run/openntpd.pid ${OPENNTPD_ARGS} >/dev/null 2>&1
+}
+
+openntpd_stop() {
+    pidfilekill /run/openntpd.pid
+}
+
+openntpd_status() {
+    pidfileexists /run/openntpd.pid
+}
