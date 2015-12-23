@@ -38,9 +38,13 @@ all:
 
 build:
 	mkdir -p $(BUILD)
+	mkdir -p $(BUILD)$(libdir)
 	mkdir -p $(BUILD)$(libdir)/beginning
-	cp -r lib/* $(BUILD)$(libdir)/beginning
-	cp -r doc/* $(BUILD)$(docdir)
+	mkdir -p $(BUILD)$(libdir)/beginning/rc.d
+	find . -maxdepth 1 -type f -exec cp {} $(BUILD)$(libdir)/beginning/rc.d \;
+	rm -f $(BUILD)$(libdir)/beginning/rc.d/LICENSE
+	rm -f $(BUILD)$(libdir)/beginning/rc.d/Makefile
+	rm -f $(BUILD)$(libdir)/beginning/rc.d/README.md
 	find $(BUILD) -type f -exec sed \
 		-e "s|@@prefix@@|$(prefix)|g"				\
 		-e "s|@@exec_prefix@@|$(exec_prefix)|g"		\
