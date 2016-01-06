@@ -1,0 +1,20 @@
+#!/bin/bash
+
+DROPBEAR_ARGS=${DROPBEAR_ARGS:-}
+
+dropbear_exists() {
+    prog_exists dropbear
+}
+
+dropbear_start() {
+    # -R - generate host keys automatically
+    setsid -w $(type -fPp dropbear 2>/dev/null) -P "@@runstatedir@@"/dropbear.pid -R ${DROPBEAR_ARGS} >/dev/null 2>&1
+}
+
+dropbear_stop() {
+    setsid -w kill $(<"@@runstatedir@@"/dropbear.pid)
+}
+
+dropbear_status() {
+    pidfileexists "@@runstatedir@@"/dropbear.pid
+}
