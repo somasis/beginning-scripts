@@ -1,0 +1,83 @@
+#!/bin/bash
+
+MODULES=( ${MODULES[@]:-} )
+
+modules_exists() {
+    case "${BEGINNING_PLATFORM}" in
+        Linux)
+            if modprobe -V 2>&1 | grep -q -- '^kmod';then
+                modprobe() {
+                    command modprobe --quiet --syslog --use-blacklist "$@"
+                }
+            else
+                modprobe() {
+                    command modprobe -q -s "$@"
+                }
+            fi
+
+            # if possible, load static-node modules
+            if prog_exists kmod;then
+                static-nodes() {
+                    command kmod static-nodes -f devname | cut -d' ' -f1
+                }
+            elif [[ -f "@@libdir@@"/modules/$(uname -r)/modules.devname ]];then
+                static-nodes() {
+                    cut -d' ' -f1 <"@@libdir@@"/modules/$(uname -r)/modules.devname
+                }
+            else
+                static-nodes() { :; }
+            fi
+        ;;
+        *)
+            false
+        ;;
+    esac
+}
+
+modules_start() {
+    local module err
+    for module in "${MODULES[@]}" $(static-nodes);do
+        status CUSTOM "modules: loading ${module}"
+        if ! modprobe "${module}";then
+            err=$?
+            status FAILURE "modules: failed to load ${module}"
+            return $err
+        fi
+    done
+}
+
+modules_stop() {
+    local module
+    for module in "${MODULES[@]}" $(static-nodes);do
+        status CUSTOM "modules: unloading ${module}"
+        if ! modprobe -r "${module}";then
+            status CUSTOM "modules: failed to unload ${module}, continuing anyway"
+        fi
+    done
+}
+
+modules_reload() {
+    local module err
+    for module in "${MODULES[@]}" $(static-nodes);do
+        if ! grep -q -- "^${module}" /proc/modules;then
+            status CUSTOM "modules: loading ${module}"
+            if ! modprobe "${module}";then
+                err=$?
+                status CUSTOM "modules: failed to load ${module}"
+                return $err
+            fi
+        fi
+    done
+}
+
+modules_status() {
+    local module
+    for module in "${MODULES[@]}" $(static-nodes);do
+        if grep -q -- "^${module}" /proc/modules;then
+            continue
+        else
+            return 1
+        fi
+    done
+}
+
