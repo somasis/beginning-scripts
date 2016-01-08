@@ -25,7 +25,7 @@ getty_stop() {
     # stopping login terminals is almost always a bad idea.
     # don't allow it. if it's not desired then the user should be
     # smart enough to remove it from CORE_DAEMONS
-    [[ "$BEGINNING_RUNNER" == rc.shutdown ]] || return 0
+    [[ "$BEGINNING_RUNNER" == rc.shutdown ]] || return 1
     kill $(pgrep agetty) >/dev/null 2>&1
 }
 
