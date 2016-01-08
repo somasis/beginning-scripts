@@ -16,13 +16,13 @@ modules_exists() {
             fi
 
             # if possible, load static-node modules
-            if prog_exists kmod;then
+            if [[ -f "@@libdir@@"/modules/$(uname -r)/modules.devname ]];then
+                static-nodes() {
+                    cut -d' ' -f1 <"@@libdir@@"/modules/$(uname -r)/modules.devname | grep -v '^#'
+                }
+            elif prog_exists kmod;then
                 static-nodes() {
                     command kmod static-nodes -f devname | cut -d' ' -f1
-                }
-            elif [[ -f "@@libdir@@"/modules/$(uname -r)/modules.devname ]];then
-                static-nodes() {
-                    cut -d' ' -f1 <"@@libdir@@"/modules/$(uname -r)/modules.devname
                 }
             else
                 static-nodes() { :; }
