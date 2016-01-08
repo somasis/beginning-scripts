@@ -17,11 +17,13 @@ eudev_start() {
     local pid=$!
     udevadm trigger --action=add --type=subsystems
     udevadm trigger --action=add --type=devices
+    status CUSTOM "eudev: devices settling"
+    udevadm settle
     echo $pid > "@@runstatedir@@"/eudev.pid
 }
 
 eudev_reload() {
-    eudev_status || return 1
+    status CUSTOM "eudev: reloading devices"
     udevadm control --reload
 }
 
