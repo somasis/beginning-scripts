@@ -66,7 +66,8 @@ build:
 		if [[ $$? -eq 0 ]];then \
 			echo "SYNTAX PASS: $$file"; \
 		else \
-			echo "SYNTAX FAIL: $$file" || exit 1; \
+			echo "SYNTAX FAIL: $$file";	\
+			exit 1; \
 		fi; \
 	done
 
