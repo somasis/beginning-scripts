@@ -3,10 +3,6 @@
 TOYBOX_KLOGD_ARGS=${TOYBOX_KLOGD_CONF:-}
 TOYBOX_KLOGD_CONF=${TOYBOX_KLOGD_CONF:-}
 
-toybox-klogd_provides() {
-    echo klog
-}
-
 toybox-klogd_exists() {
     prog_exists toybox && toybox | grep -q klogd
 }
