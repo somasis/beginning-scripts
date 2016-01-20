@@ -1,0 +1,5 @@
+#!/bin/bash
+
+TTY_VTERMS=${TTY_VTERMS:-7}
+
+tty_virtual() { true; }

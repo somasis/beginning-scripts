@@ -1,27 +1,34 @@
 #!/bin/bash
 
-GETTY_ARGS=${GETTY_ARGS:-"--noclear"}
-GETTY_VTERMS=${GETTY_VTERMS:-7}
+AGETTY_ARGS=${AGETTY_ARGS:-"--noclear"}
 
-getty_exists() {
+if [[ -z "${AGETTY_VTERMS}" ]];then
+    AGETTY_VTERMS=${TTY_VTERMS:-7}
+fi
+
+agetty_provides() {
+    echo tty
+}
+
+agetty_exists() {
     prog_exists agetty
 }
 
-getty_start() {
+agetty_start() {
     if [[ "${BEGINNING_RUNNER}" == rc.init ]];then
-        for (( i=1; i<=${GETTY_VTERMS}; i++ )); do
-            sh -c "while true;do setsid agetty ${GETTY_ARGS} tty${i} linux;done" &>/dev/null &
+        for (( i=1; i<=${AGETTY_VTERMS}; i++ )); do
+            sh -c "while true;do setsid agetty ${AGETTY_ARGS} tty${i} linux;done" &>/dev/null &
         done
     else
         false
     fi
 }
 
-getty_reload() {
+agetty_reload() {
     agetty --reload
 }
 
-getty_stop() {
+agetty_stop() {
     # stopping login terminals is almost always a bad idea.
     # don't allow it. if it's not desired then the user should be
     # smart enough to remove it from CORE_DAEMONS
@@ -29,6 +36,6 @@ getty_stop() {
     kill $(pgrep agetty) >/dev/null 2>&1
 }
 
-getty_status() {
+agetty_status() {
     pgrep agetty >/dev/null 2>&1
 }
