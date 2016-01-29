@@ -1,0 +1,27 @@
+#!/bin/bash
+
+UPOWER_ARGS=${UPOWER_ARGS:-}
+
+PATH="@@libexecdir@@:${PATH}"
+
+upower_exists() {
+    prog_exists upowerd
+}
+
+upower_depends() {
+    echo dbus
+}
+
+upower_start() {
+    upowerd ${UPOWER_ARGS} &
+    echo $! > "@@runstatedir@@"/upower.pid
+}
+
+upower_stop() {
+    pidfilekill "@@runstatedir@@"/upower.pid
+}
+
+upower_status() {
+    pidfileexists "@@runstatedir@@"/upower.pid
+}
+
