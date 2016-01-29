@@ -9,13 +9,13 @@ busybox-klogd_exists() {
 
 busybox-klogd_start() {
     busybox klogd -n ${BUSYBOX_KLOGD_CONF:+-f ${BUSYBOX_KLOGD_CONF}} ${BUSYBOX_KLOGD_ARGS} >/dev/null 2>&1 &
-    echo $! > "@@runstatedir@@"/busybox-klogd.pid
+    pidfile "$!" busybox-klogd
 }
 
 busybox-klogd_stop() {
-    pidfilekill "@@runstatedir@@"/busybox-klogd.pid
+    pidfilekill busybox-klogd
 }
 
 busybox-klogd_status() {
-    pidfileexists "@@runstatedir@@"/busybox-klogd.pid
+    pidfileexists busybox-klogd
 }

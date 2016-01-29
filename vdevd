@@ -22,9 +22,9 @@ vdevd_start() {
 }
 
 vdevd_stop() {
-    pidfilekill "@@runstatedir@@"/vdevd.pid
+    pidfilekill vdevd
 }
 
 vdevd_status() {
-    pidfileexists "@@runstatedir@@"/vdevd.pid
+    pidfileexists vdevd
 }

@@ -8,13 +8,13 @@ dropbear_exists() {
 
 dropbear_start() {
     # -R - generate host keys automatically
-    setsid -w $(type -fPp dropbear 2>/dev/null) -P "@@runstatedir@@"/dropbear.pid -R ${DROPBEAR_ARGS} >/dev/null 2>&1
+    setsid -w $(type -fPp dropbear 2>/dev/null) -P "@@runstatedir@@"/beginning/dropbear.pid -R ${DROPBEAR_ARGS} >/dev/null 2>&1
 }
 
 dropbear_stop() {
-    setsid -w kill $(<"@@runstatedir@@"/dropbear.pid)
+    setsid -w kill $(<"@@runstatedir@@"/beginning/dropbear.pid)
 }
 
 dropbear_status() {
-    pidfileexists "@@runstatedir@@"/dropbear.pid
+    pidfileexists dropbear
 }

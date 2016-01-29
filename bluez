@@ -17,13 +17,13 @@ bluez_depends() {
 bluez_start() {
     PATH="@@libexecdir@@"/bluetooth:"@@bindir@@":"${PATH}"
     bluetoothd -n ${BLUEZ_ARGS} >/dev/null 2>&1 &
-    echo $! > "@@runstatedir@@"/bluetooth.pid
+    pidfile "$!" bluetooth
 }
 
 bluez_stop() {
-    pidfilekill "@@runstatedir@@"/bluetooth.pid
+    pidfilekill bluetooth
 }
 
 bluez_status() {
-    pidfileexists "@@runstatedir@@"/bluetooth.pid
+    pidfileexists bluetooth
 }

@@ -17,13 +17,13 @@ busybox-syslogd_exists() {
 
 busybox-syslogd_start() {
     busybox syslogd -n ${BUSYBOX_SYSLOGD_CONF:+-f ${BUSYBOX_SYSLOGD_CONF}} ${BUSYBOX_SYSLOGD_ARGS} >/dev/null 2>&1 &
-    echo $! > "@@runstatedir@@"/busybox-syslogd.pid
+    pidfile "$!" busybox-syslogd
 }
 
 busybox-syslogd_stop() {
-    pidfilekill "@@runstatedir@@"/busybox-syslogd.pid
+    pidfilekill busybox-syslogd
 }
 
 busybox-syslogd_status() {
-    pidfileexists "@@runstatedir@@"/busybox-syslogd.pid
+    pidfileexists busybox-syslogd
 }

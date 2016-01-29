@@ -13,14 +13,14 @@ vixie-cron_provides() {
 
 vixie-cron_start() {
     cron -n ${VIXIE_CRON_ARGS} &
-    echo $! > "@@runstatedir@@"/vixie-cron.pid
+    pidfile "$!" vixie-cron
 }
 
 vixie-cron_stop() {
-    pidfilekill "@@runstatedir@@"/vixie-cron.pid
+    pidfilekill vixie-cron
 }
 
 vixie-cron_status() {
-    pidfileexists "@@runstatedir@@"/vixie-cron.pid
+    pidfileexists vixie-cron
 }
 

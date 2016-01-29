@@ -18,7 +18,7 @@ opensshd_start() {
 }
 
 opensshd_reload() {
-    pidfilekill -HUP "@@runstatedir@@"/sshd.pid
+    pidfilekill -HUP sshd
 }
 
 opensshd_stop() {

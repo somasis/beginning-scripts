@@ -10,13 +10,13 @@ cupsd_exists() {
 cupsd_start() {
     cupsd -t -c ${CUPSD_CONF} ${CUPSD_ARGS} >/dev/null 2>&1 && \
     cupsd -f -c ${CUPSD_CONF} ${CUPSD_ARGS} >/dev/null 2>&1 &
-    echo $! > "@@runstatedir@@"/cupsd.pid
+    pidfile "$!" cupsd
 }
 
 cupsd_stop() {
-    pidfilekill "@@runstatedir@@"/cupsd.pid
+    pidfilekill cupsd
 }
 
 cupsd_status() {
-    pidfileexists "@@runstatedir@@"/cupsd.pid
+    pidfileexists cupsd
 }

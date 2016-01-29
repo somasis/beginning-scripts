@@ -17,9 +17,9 @@ dhclient_start() {
 }
 
 dhclient_stop() {
-    pidfilekill "@@runstatedir@@"/dhclient.pid
+    pidfilekill dhclient
 }
 
 dhclient_status() {
-    pidfileexists "@@runstatedir@@"/dhclient.pid
+    pidfileexists dhclient
 }

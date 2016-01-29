@@ -23,10 +23,10 @@ redis_start() {
 }
 
 redis_stop() {
-    pidfilekill "@@runstatedir@@"/redis.pid
+    pidfilekill redis
 }
 
 redis_status() {
-    pidfileexists "@@runstatedir@@"/redis.pid
+    pidfileexists redis
 }
 

@@ -13,15 +13,15 @@ upower_depends() {
 }
 
 upower_start() {
-    upowerd ${UPOWER_ARGS} &
-    echo $! > "@@runstatedir@@"/upower.pid
+    upowerd ${UPOWER_ARGS} >/dev/null 2>&1 &
+    pidfilewrite $! upower
 }
 
 upower_stop() {
-    pidfilekill "@@runstatedir@@"/upower.pid
+    pidfilekill upower
 }
 
 upower_status() {
-    pidfileexists "@@runstatedir@@"/upower.pid
+    pidfileexists upower
 }
 

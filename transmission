@@ -17,9 +17,9 @@ transmission_start() {
 }
 
 transmission_stop() {
-    pidfilekill "@@runstatedir@@"/transmission.pid
+    pidfilekill transmission
 }
 
 transmission_status() {
-    pidfileexists "@@runstatedir@@"/transmission.pid
+    pidfileexists transmission
 }

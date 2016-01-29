@@ -11,10 +11,10 @@ haveged_start() {
 }
 
 haveged_stop() {
-    pidfilekill "@@runstatedir@@"/haveged.pid
+    pidfilekill haveged
 }
 
 haveged_status() {
-    pidfileexists "@@runstatedir@@"/haveged.pid
+    pidfileexists haveged
 }
 

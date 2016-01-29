@@ -15,9 +15,9 @@ rsyslogd_start() {
 }
 
 rsyslogd_stop() {
-    pidfilekill "@@runstatedir@@"/rsyslogd.pid
+    pidfilekill rsyslogd
 }
 
 rsyslogd_status() {
-    pidfileexists "@@runstatedir@@"/rsyslogd.pid
+    pidfileexists rsyslogd
 }

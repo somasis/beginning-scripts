@@ -13,13 +13,13 @@ bitlbee_start() {
     else
         bitlbee -Fn ${BITLBEE_ARGS} >/dev/null 2>&1 &
     fi
-    echo $! > "@@runstatedir@@"/bitlbee.pid
+    pidfile "$!" bitlbee
 }
 
 bitlbee_stop() {
-    pidfilekill "@@runstatedir@@"/bitlbee.pid
+    pidfilekill bitlbee
 }
 
 bitlbee_status() {
-    pidfileexists "@@runstatedir@@"/bitlbee.pid
+    pidfileexists bitlbee
 }

@@ -17,9 +17,9 @@ dhcpcd_start() {
 }
 
 dhcpcd_stop() {
-    pidfilekill "@@runstatedir@@"/dhcpcd.pid
+    pidfilekill dhcpcd
 }
 
 dhcpcd_status() {
-    pidfileexists "@@runstatedir@@"/dhcpcd.pid
+    pidfileexists dhcpcd
 }

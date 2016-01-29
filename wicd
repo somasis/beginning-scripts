@@ -16,13 +16,13 @@ wicd_depends() {
 
 wicd_start() {
     wicd --no-daemon ${WICD_ARGS} >/dev/null 2>&1 &
-    echo $! > "@@runstatedir@@"/wicd.pid
+    pidfile "$!" wicd
 }
 
 wicd_stop() {
-    pidfilekill "@@runstatedir@@"/wicd.pid
+    pidfilekill wicd
 }
 
 wicd_status() {
-    pidfileexists "@@runstatedir@@"/wicd.pid
+    pidfileexists wicd
 }

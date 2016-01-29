@@ -19,7 +19,7 @@ eudev_start() {
     udevadm trigger --action=add --type=devices
     status CUSTOM "eudev: devices settling"
     udevadm settle
-    echo $pid > "@@runstatedir@@"/eudev.pid
+    pidfile "$pid" "eudev"
 }
 
 eudev_reload() {
@@ -32,5 +32,5 @@ eudev_stop() {
 }
 
 eudev_status() {
-    pidfileexists "@@runstatedir@@"/eudev.pid
+    pidfileexists eudev
 }

@@ -11,9 +11,9 @@ slim_start() {
 }
 
 slim_stop() {
-    pidfilekill "@@runstatedir@@"/slim.lock
+    pidfilekill slim.lock
 }
 
 slim_status() {
-    pidfileexists "@@runstatedir@@"/slim.lock
+    pidfileexists slim.lock
 }

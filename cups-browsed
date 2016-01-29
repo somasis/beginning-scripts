@@ -12,13 +12,13 @@ cups-browsed_depends() {
 
 cups-browsed_start() {
     cups-browsed --autoshutdown=avahi ${CUPS_BROWSED_ARGS} >/dev/null 2>&1 &
-    echo $! > "@@runstatedir@@"/cups-browsed.pid
+    pidfile "$!" cups-browsed
 }
 
 cups-browsed_stop() {
-    pidfilekill "@@runstatedir@@"/cups-browsed.pid
+    pidfilekill cups-browsed
 }
 
 cups-browsed_status() {
-    pidfileexists "@@runstatedir@@"/cups-browsed.pid
+    pidfileexists cups-browsed
 }
