@@ -1,0 +1,19 @@
+#!/bin/bash
+
+SLIM_ARGS=${SLIM_ARGS:-}
+
+slim_exists() {
+    prog_exists slim
+}
+
+slim_start() {
+    slim -d >/dev/null 2>&1
+}
+
+slim_stop() {
+    pidfilekill "@@runstatedir@@"/slim.lock
+}
+
+slim_status() {
+    pidfileexists "@@runstatedir@@"/slim.lock
+}
