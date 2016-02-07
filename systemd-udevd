@@ -1,0 +1,39 @@
+#!/bin/bash
+
+PATH="@@libexecdir@@/systemd":"${PATH}"
+
+systemd-udevd_provides() {
+    echo dev
+}
+
+systemd-udevd_exists() {
+    if [[ -x "@@libexecdir@@/systemd/systemd-udevd" ]];then
+        true
+    else
+        false
+    fi
+}
+
+systemd-udevd_start() {
+    PATH="@@libexecdir@@/systemd":"${PATH}"
+    systemd-udevd &
+    local pid=$!
+    udevadm trigger --action=add --type=subsystems
+    udevadm trigger --action=add --type=devices
+    status CUSTOM "systemd-udevd: devices settling"
+    udevadm settle
+    pidfile "$pid" "systemd-udevd"
+}
+
+systemd-udevd_reload() {
+    status CUSTOM "systemd-udevd: reloading devices"
+    udevadm control --reload
+}
+
+systemd-udevd_stop() {
+    udevadm control --exit
+}
+
+systemd-udevd_status() {
+    pidfileexists systemd-udevd
+}
