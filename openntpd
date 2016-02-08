@@ -3,7 +3,7 @@
 OPENNTPD_ARGS=${OPENNTPD_ARGS:-}
 
 openntpd_exists() {
-    prog_exists openntpd
+    prog_exists openntpd || prog_exists ntpctl
 }
 
 openntpd_depends() {
