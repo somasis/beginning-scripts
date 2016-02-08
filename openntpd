@@ -3,7 +3,13 @@
 OPENNTPD_ARGS=${OPENNTPD_ARGS:-}
 
 openntpd_exists() {
-    prog_exists openntpd || prog_exists ntpctl
+    if prog_exists openntpd;then
+        openntpd=openntpd
+    elif prog_exists ntpctl;then
+        openntpd=ntpd
+    else
+        return 1
+    fi
 }
 
 openntpd_depends() {
@@ -11,7 +17,7 @@ openntpd_depends() {
 }
 
 openntpd_start() {
-    openntpd -p "@@runstatedir@@"/beginning/openntpd.pid ${OPENNTPD_ARGS} >/dev/null 2>&1
+    "${openntpd}" -p "@@runstatedir@@"/beginning/openntpd.pid ${OPENNTPD_ARGS} >/dev/null 2>&1
 }
 
 openntpd_stop() {
