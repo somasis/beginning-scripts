@@ -2,6 +2,10 @@
 
 OPENNTPD_ARGS=${OPENNTPD_ARGS:-}
 
+openntpd_provides() {
+    echo ntpd
+}
+
 openntpd_exists() {
     if prog_exists openntpd;then
         openntpd=openntpd
