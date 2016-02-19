@@ -1,0 +1,27 @@
+#!/bin/bash
+
+BUSYBOX_NTPD_ARGS=${BUSYBOX_NTPD_ARGS:-}
+
+busybox-ntpd_provides() {
+    echo ntpd
+}
+
+busybox-ntpd_exists() {
+    prog_exists busybox && busybox --list | grep -q '^ntpd$' || return 1
+}
+
+busybox-ntpd_depends() {
+    echo network
+}
+
+busybox-ntpd_start() {
+    busybox ntpd ${BUSYBOX_NTPD_ARGS} >/dev/null 2>&1
+}
+
+busybox-ntpd_stop() {
+    pidfilekill ntpd
+}
+
+busybox-ntpd_status() {
+    pidfileexists ntpd
+}
