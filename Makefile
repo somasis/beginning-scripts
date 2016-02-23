@@ -63,7 +63,7 @@ build:
 	@echo
 	@for file in $$(grep -lr '^\#!/bin/bash' $(BUILD));do \
 		bash -n "$$file"; \
-		if [[ $$? -eq 0 ]];then \
+		if [ $$? -eq 0 ];then \
 			echo "SYNTAX PASS: $$file"; \
 		else \
 			echo "SYNTAX FAIL: $$file";	\
