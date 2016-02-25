@@ -17,9 +17,9 @@ dhcpcd_start() {
 }
 
 dhcpcd_stop() {
-    pidfilekill dhcpcd
+    pidfilekill dhcpcd${DHCPCD_IFACE:+-$DHCPCD_IFACE}
 }
 
 dhcpcd_status() {
-    pidfileexists dhcpcd
+    pidfileexists dhcpcd${DHCPCD_IFACE:+-$DHCPCD_IFACE}
 }
