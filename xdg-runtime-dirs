@@ -1,0 +1,43 @@
+#!/bin/bash
+
+xdg-runtime-dirs_exists() {
+    true
+}
+
+xdg-runtime-dirs_start() {
+    for u in $(cut -f1,3-4 -d ':' "@@sysconfdir@@"/passwd);do
+        user=${u%%:*}
+        gid=${u##*:}
+        uid=${u%**}; uid=${uid##*:}
+        status CUSTOM "xdg-runtime-dirs: ${user}"
+        if [[ ! -d "@@runstatedir@@"/user/"${uid}" ]];then
+            mkdir "@@runstatedir@@"/user/"${uid}"
+            # make sure directory is owned by user's primary group
+            chown "${uid}:${gid}" "@@runstatedir@@"/user/"${uid}"
+            chmod 700 "@@runstatedir@@"/user/"${uid}"
+        fi
+        if [[ ! -L "@@runstatedir@@"/user/"${user}" ]];then
+            # programs seem to default to /run/user/${USER} if XDG_RUNTIME_DIR unset
+            ln -sf "@@runstatedir@@"/user/"${uid}" "@@runstatedir@@"/user/"${user}"
+        fi
+    done
+}
+
+xdg-runtime-dirs_stop() {
+    # runtime dirs are cleared at startup, we should not stop because we can't be sure they aren't
+    # being used when we delete them
+    [[ "${BEGINNING_RUNNER}" == rc.shutdown ]] || return 1
+    return 0
+}
+
+xdg-runtime-dirs_status() {
+    for u in $(cut -f1,3-4 -d ':' "@@sysconfdir@@"/passwd);do
+        user=${u%%:*}
+        gid=${u##*:}
+        uid=${u%**}; uid=${uid##*:}
+        if [[ ! -d "@@runstatedir@@"/user/"${uid}" || ! -L "@@runstatedir@@"/user/"${user}" ]];then
+            return 1
+        fi
+    done
+    return 0
+}
