@@ -9,9 +9,11 @@ opensshd_exists() {
 opensshd_start() {
     if prog_exists sshd-keygen.sh;then
         # use sshd-keygen.sh if available; used by fedora and exherbo
+        status CUSTOM "opensshd: running sshd-keygen"
         $(type -fPp sshd-keygen.sh >/dev/null 2>&1)
     elif prog_exists sshd-keygen;then
         # use sshd-keygen's built-in stuff otherwise
+        status CUSTOM "opensshd: running sshd-keygen"
         sshd-keygen -A >/dev/null 2>&1
     fi
     setsid -w $(type -fPp sshd 2>/dev/null) ${OPENSSHD_ARGS} >/dev/null 2>&1
