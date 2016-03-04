@@ -5,6 +5,7 @@ xdg-runtime-dirs_exists() {
 }
 
 xdg-runtime-dirs_start() {
+    [[ -d "@@runstatedir@@"/user ]] || mkdir "@@runstatedir@@"/user >/dev/null 2>&1
     for u in $(cut -f1,3-4 -d ':' "@@sysconfdir@@"/passwd);do
         user=${u%%:*}
         gid=${u##*:}
