@@ -4,7 +4,7 @@ CRONIE_ARGS=${CRONIE_ARGS:-}
 
 # vixie-cron uses `cron`, cronie is `crond`, busybox uses links
 cronie_exists() {
-    prog_exists crond && ! prog_exists cron && [[ "$(readlink -f $(type -fPp crond))" != */busybox ]]
+    prog_exists crond && [[ "$(readlink -f $(type -fPp crond))" != */busybox ]]
 }
 
 cronie_provides() {
