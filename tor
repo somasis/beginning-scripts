@@ -1,0 +1,37 @@
+#!/bin/bash
+
+TOR_ARGS=${TOR_ARGS-}
+TOR_USER=${TOR_USER-tor}
+
+tor_exists() {
+    prog_exists tor
+}
+
+tor_depends() {
+    echo network
+}
+
+tor_start() {
+    status CUSTOM "tor: verifying configuration"
+    if ! tor --verify-config >/dev/null 2>&1;then
+        err=$?
+        status FAILURE "tor: tor --verify-config failed with $err"
+        return 1
+    fi
+    touch "@@runstatedir@@"/beginning/tor.pid
+    [[ -n "${TOR_USER}" ]] && chown "${TOR_USER}" "@@runstatedir@@"/beginning/tor.pid
+    tor --pidfile "@@runstatedir@@"/beginning/tor.pid --runasdaemon 1 ${TOR_ARGS} >/dev/null 2>&1
+}
+
+tor_stop() {
+    pidfilekill tor
+}
+
+tor_status() {
+    pidfileexists tor
+}
+
+tor_reload() {
+    pidfilekill -SIGHUP tor
+}
+
