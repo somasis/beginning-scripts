@@ -1,0 +1,20 @@
+#!/bin/bash
+
+DOCKER_ARGS=${DOCKER_ARGS-}
+
+docker_exists() {
+    prog_exists docker
+}
+
+docker_start() {
+    docker daemon -p "@@runstatedir@@/beginning/docker.pid" ${DOCKER_ARGS} >> "@@localstatedir@@/log/docker.log" 2>&1 & disown
+}
+
+docker_stop() {
+    pidfilekill docker
+}
+
+docker_status() {
+    pidfileexists docker
+}
+
