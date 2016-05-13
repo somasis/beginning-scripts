@@ -1,0 +1,29 @@
+#!/bin/bash
+
+POLKIT_ARGS=${POLKIT_ARGS:-}
+
+polkit_exists() {
+    if prog_exists polkitd || PATH="@@libexecdir@@"/polkit-1:"@@libdir@@"/polkit-1:"@@bindir@@" prog_exists polkitd;then
+        return 0
+    else
+        return 1
+    fi
+}
+
+polkit_depends() {
+    echo dbus
+}
+
+polkit_start() {
+    PATH="@@libexecdir@@"/polkit-1:"@@libdir@@"/polkit-1:"@@bindir@@":"${PATH}"
+    polkitd --no-debug ${POLKIT_ARGS} >/dev/null 2>&1 &
+    pidfile "$!" polkit
+}
+
+polkit_stop() {
+    pidfilekill polkit
+}
+
+polkit_status() {
+    pidfileexists polkit
+}
