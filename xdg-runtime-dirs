@@ -9,7 +9,7 @@ xdg-runtime-dirs_start() {
     for u in $(cut -f1,3-4 -d ':' "@@sysconfdir@@"/passwd);do
         user=${u%%:*}
         gid=${u##*:}
-        uid=${u%**}; uid=${uid##*:}
+        uid=${u%:*}; uid=${uid##*:}
         status CUSTOM "xdg-runtime-dirs: ${user}"
         if [[ ! -d "@@runstatedir@@"/user/"${uid}" ]];then
             mkdir "@@runstatedir@@"/user/"${uid}"
